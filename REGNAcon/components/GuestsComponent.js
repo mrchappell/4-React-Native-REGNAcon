@@ -1,27 +1,43 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { FlatList } from 'react-native';
 import { ListItem } from 'react-native-elements';
+import { CELEBS } from '../shared/celebs';
 
-function Guests(props) {
+class Guests extends Component {
 
-    const renderGuestsItem = ({item}) => {
-        return (
-            <ListItem
-                title={item.name}
-                subtitle={item.description}
-                onPress={() => props.onPress(item.id)}
-                leftAvatar={{ source: require('./images/logo.png')}}
-            />
-        );
+    constructor(props) {
+        super(props);
+        this.state = {
+            celebs: CELEBS
+        };
+    }
+
+    static navigationOptions = {
+        title: 'Guests'
     };
 
-    return (
-        <FlatList 
-            data={props.celebs}
-            renderItem={renderGuestsItem}
-            keyExtractor={item => item.id.toString()}
-        />
-    );
+    render() {
+        const { navigate } = this.props.navigation;
+        const renderGuestItem = ({item}) => {
+            return (
+                <ListItem
+                    title={item.name}
+                    subtitle={item.description}
+                    onPress={() => navigate('GuestInfo', { celebId: item.id })}
+                    leftAvatar={{ source: require('./images/logo.png')}}
+                />
+            );
+        };
+
+        return (
+            <FlatList
+                data={this.state.celebs}
+                renderItem={renderGuestItem}
+                keyExtractor={item => item.id.toString()}
+            />
+        );
+    }
 }
+
 
 export default Guests;
