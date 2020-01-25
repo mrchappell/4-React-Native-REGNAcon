@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { Tile } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
+import Loading from './LoadingComponent';
 
 const mapStateToProps = state => {
     return {
@@ -31,8 +32,18 @@ class Guests extends Component {
             );
         };
 
+        if (this.props.celebs.isLoading) {
+            return <Loading />;
+        }
+        if (this.props.celebs.errMess) {
+            return (
+                <View>
+                    <Text>{this.props.celebs.errMess}</Text>
+               </View>
+            );
+        }
         return (
-            <FlatList
+            <FlatList  
                 data={this.props.celebs.celebs}
                 renderItem={renderGuestItem}
                 keyExtractor={item => item.id.toString()}
