@@ -2,10 +2,10 @@ import * as ActionTypes from './ActionTypes';
 
 export const celebs = (state = { isLoading: true,
                                      errMess: null,
-                                     campsites: []}, action) => {
+                                     celebs: []}, action) => {
     switch (action.type) {
         case ActionTypes.ADD_CELEBS:
-            return {...state, isLoading: false, errMess: null, campsites: action.payload};
+            return {...state, isLoading: false, errMess: null, celebs: action.payload};
 
         case ActionTypes.CELEBS_LOADING = 'CELEBS_LOADING':
             return {...state, isLoading: true, errMess: null, celebs: []}

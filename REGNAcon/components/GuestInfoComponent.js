@@ -1,8 +1,15 @@
 import React, { Component } from 'react';
 import { Text, View, ScrollView, FlatList } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
-import { CELEBS } from '../shared/celebs';
-import { COMMENTS } from '../shared/comments';
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
+
+const mapStateToProps = state => {
+    return {
+        celebs: state.celebs,
+        comments: state.comments
+    };
+};
 
 function RenderCeleb(props) {
 
@@ -12,7 +19,7 @@ function RenderCeleb(props) {
         return (
             <Card
                 featuredTitle={celeb.name}
-                image={require('./images/logo.png')}>
+                image={{uri: baseUrl + celeb.image}}>
                 <Text style={{ margin: 10 }}>
                     {celeb.description}
                 </Text>
@@ -59,8 +66,6 @@ class GuestInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            celebs: CELEBS,
-            comments: COMMENTS,
             favorite: false
         };
     }
@@ -75,8 +80,8 @@ class GuestInfo extends Component {
 
     render() {
         const celebId = this.props.navigation.getParam('celebId');
-        const celeb = this.state.celebs.filter(celeb => celeb.id === celebId)[0];
-        const comments = this.state.comments.filter(comment => comment.celebId === celebId);
+        const celeb = this.props.celebs.celebs.filter(celeb => celeb.id === celebId)[0];
+        const comments = this.props.comments.comments.filter(comment => comment.celebId === celebId);
         return (
             <ScrollView>
                 <RenderCeleb celeb={celeb}
@@ -89,4 +94,4 @@ class GuestInfo extends Component {
     }
 }
 
-export default GuestInfo;
+export default connect(mapStateToProps)(GuestInfo);

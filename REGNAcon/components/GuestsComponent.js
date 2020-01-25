@@ -1,16 +1,17 @@
 import React, { Component } from 'react';
 import { FlatList } from 'react-native';
-import { ListItem } from 'react-native-elements';
-import { CELEBS } from '../shared/celebs';
+import { Tile } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
+
+const mapStateToProps = state => {
+    return {
+        celebs: state.celebs
+    };
+};
 
 class Guests extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            celebs: CELEBS
-        };
-    }
 
     static navigationOptions = {
         title: 'Guests'
@@ -20,18 +21,19 @@ class Guests extends Component {
         const { navigate } = this.props.navigation;
         const renderGuestItem = ({item}) => {
             return (
-                <ListItem
+                <Tile
                     title={item.name}
-                    subtitle={item.description}
+                    caption={item.description}
+                    featured
                     onPress={() => navigate('GuestInfo', { celebId: item.id })}
-                    leftAvatar={{ source: require('./images/logo.png')}}
+                    imageSrc={{uri: baseUrl + item.image}}
                 />
             );
         };
 
         return (
             <FlatList
-                data={this.state.celebs}
+                data={this.props.celebs.celebs}
                 renderItem={renderGuestItem}
                 keyExtractor={item => item.id.toString()}
             />
@@ -39,5 +41,4 @@ class Guests extends Component {
     }
 }
 
-
-export default Guests;
+export default connect(mapStateToProps)(Guests);

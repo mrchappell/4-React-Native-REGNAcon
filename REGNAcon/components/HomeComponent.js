@@ -1,18 +1,27 @@
 import React, { Component } from 'react';
-import { View, Text, ScrollView } from 'react-native';
+import { ScrollView, View, Text } from 'react-native';
 import { Card } from 'react-native-elements';
-import { CELEBS } from '../shared/celebs';
-import { PROMOTIONS } from '../shared/promotions';
-import { PARTNERS } from '../shared/partners';
+import { connect } from 'react-redux';
+import { baseUrl } from '../shared/baseUrl';
 
-function RenderItem({item}) {
+const mapStateToProps = state => {
+    return {
+        celebs: state.celebs,
+        promotions: state.promotions,
+        partners: state.partners
+    };
+};
+
+function RenderItem(props) {
+    const {item} = props;
+
     if (item) {
         return (
             <Card
                 featuredTitle={item.name}
-                image={require('./images/logo.png')}>
+                image={{uri: baseUrl + item.image}}>
                 <Text
-                    style={{margin: 10}}>
+                    style={{ margin: 10 }}>
                     {item.description}
                 </Text>
             </Card>
@@ -23,15 +32,6 @@ function RenderItem({item}) {
 
 class Home extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            celebs: CELEBS,
-            promotions: PROMOTIONS,
-            partners: PARTNERS
-        };
-    }
-
     static navigationOptions = {
         title: 'Home'
     }
@@ -39,15 +39,18 @@ class Home extends Component {
     render() {
         return (
             <ScrollView>
-                <RenderItem 
-                    item={this.state.celebs.filter(celeb => celeb.featured)[0]} />
-                <RenderItem 
-                    item={this.state.promotions.filter(promotion => promotion.featured)[0]} />
-                <RenderItem 
-                    item={this.state.partners.filter(partner => partner.featured)[0]} />
+                <RenderItem
+                    item={this.props.celebs.celebs.filter(celeb => celeb.featured)[0]}
+                />
+                <RenderItem
+                    item={this.props.promotions.promotions.filter(promotion => promotion.featured)[0]}
+                />
+                <RenderItem
+                    item={this.props.partners.partners.filter(partner => partner.featured)[0]}
+                />
             </ScrollView>
         );
     }
 }
 
-export default Home;
+export default connect(mapStateToProps)(Home);

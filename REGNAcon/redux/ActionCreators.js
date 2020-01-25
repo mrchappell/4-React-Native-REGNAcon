@@ -31,7 +31,7 @@ export const addComments = (comments) => ({
     payload: comments
 });
 
-export const fetchcelebs = () => dispatch => {
+export const fetchCelebs = () => dispatch => {
 
     dispatch(celebsLoading());
 
@@ -50,21 +50,21 @@ export const fetchcelebs = () => dispatch => {
                 throw errMess;
             })
         .then(response => response.json())
-        .then(celebs => dispatch(addcelebs(celebs)))
+        .then(celebs => dispatch(addCelebs(celebs)))
         .catch(error => dispatch(celebsFailed(error.message)));
 };
 
 export const celebsLoading = () => ({
-    type: ActionTypes.celebs_LOADING
+    type: ActionTypes.CELEBS_LOADING
 });
 
 export const celebsFailed = errMess => ({
-    type: ActionTypes.celebs_FAILED,
+    type: ActionTypes.CELEBS_FAILED,
     payload: errMess
 });
 
-export const addcelebs = celebs => ({
-    type: ActionTypes.ADD_celebs,
+export const addCelebs= celebs => ({
+    type: ActionTypes.ADD_CELEBS,
     payload: celebs
 });
 
