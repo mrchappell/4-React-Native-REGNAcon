@@ -11,6 +11,7 @@ import SafeAreaView from 'react-native-safe-area-view';
 import { connect } from 'react-redux';
 import { fetchCelebs, fetchComments, fetchPromotions,
     fetchPartners } from '../redux/ActionCreators';
+import Tickets from './TicketsComponent';
 
 const mapDispatchToProps = {
     fetchCelebs,
@@ -117,6 +118,29 @@ const ContactNavigator = createStackNavigator(
     }
 );
 
+const TicketsNavigator = createStackNavigator(
+    {
+        Tickets: { screen: Tickets }
+    },
+    {
+        navigationOptions: ({navigation}) => ({
+            headerStyle: {
+                backgroundColor: '#008355'
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+                color: '#fff'
+            },
+            headerLeft: <Icon
+                name='ticket'
+                type='font-awesome'
+                iconStyle={styles.stackIcon}
+                onPress={() => navigation.toggleDrawer()}
+            />
+        })
+    }
+);
+
 const CustomDrawerContentComponent = props => (
     <ScrollView>
         <SafeAreaView 
@@ -156,6 +180,20 @@ const MainNavigator = createDrawerNavigator(
                 drawerIcon: ({ tintColor }) => (
                     <Icon
                         name='list'
+                        type='font-awesome'
+                        size={24}
+                        color={tintColor}
+                    />
+                )
+            }
+        },
+        Tickets: {
+            screen: TicketsNavigator,
+            navigationOptions: {
+                drawerLabel: 'Reserve Passes',
+                drawerIcon: ({tintColor}) => (
+                    <Icon
+                        name='ticket'
                         type='font-awesome'
                         size={24}
                         color={tintColor}
