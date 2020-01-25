@@ -4,14 +4,14 @@ import { baseUrl } from '../shared/baseUrl';
 export const fetchComments = () => dispatch => {
     return fetch(baseUrl + 'comments')
         .then(response => {
-                if (response.ok) {
-                    return response;
-                } else {
-                    const error = new Error(`Error ${response.status}: ${response.statusText}`);
-                    error.response = response;
-                    throw error;
-                }
-            },
+            if (response.ok) {
+                return response;
+            } else {
+                const error = new Error(`Error ${response.status}: ${response.statusText}`);
+                error.response = response;
+                throw error;
+            }
+        },
             error => {
                 const errMess = new Error(error.message);
                 throw errMess;
@@ -30,6 +30,26 @@ export const addComments = (comments) => ({
     type: ActionTypes.ADD_COMMENTS,
     payload: comments
 });
+
+
+export const postComment = (celebId, rating, author, text) => dispatch => {
+    const newComment = {
+        celebId,
+        rating,
+        author,
+        text,
+        date: new Date().toISOString()
+    };
+    setTimeout(() => {
+        dispatch(addComment(newComment));
+    }, 2000);
+};
+
+export const addComment = comment => ({
+    type: ActionTypes.ADD_COMMENT,
+    payload: comment
+});
+
 
 export const fetchCelebs = () => dispatch => {
 
