@@ -3,12 +3,18 @@ import { Text, View, ScrollView, FlatList } from 'react-native';
 import { Card, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
+import { postFavorite } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
     return {
         celebs: state.celebs,
-        comments: state.comments
+        comments: state.comments,
+        favorites: state.favorites
     };
+};
+
+const mapDispatchToProps = {
+    postFavorite: celebId => (postFavorite(celebId))
 };
 
 function RenderCeleb(props) {
@@ -19,7 +25,7 @@ function RenderCeleb(props) {
         return (
             <Card
                 featuredTitle={celeb.name}
-                image={{uri: baseUrl + celeb.image}}>
+                image={{ uri: baseUrl + celeb.image }}>
                 <Text style={{ margin: 10 }}>
                     {celeb.description}
                 </Text>
@@ -63,15 +69,8 @@ function RenderComments({ comments }) {
 
 class GuestInfo extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            favorite: false
-        };
-    }
-
-    markFavorite() {
-        this.setState({ favorite: true });
+    markFavorite(celebId) {
+        this.props.postFavorite(celebId);
     }
 
     static navigationOptions = {
@@ -85,8 +84,8 @@ class GuestInfo extends Component {
         return (
             <ScrollView>
                 <RenderCeleb celeb={celeb}
-                    favorite={this.state.favorite}
-                    markFavorite={() => this.markFavorite()}
+                    favorite={this.props.favorites.includes(celebId)}
+                    markFavorite={() => this.markFavorite(celebId)}
                 />
                 <RenderComments comments={comments} />
             </ScrollView>
@@ -94,4 +93,4 @@ class GuestInfo extends Component {
     }
 }
 
-export default connect(mapStateToProps)(GuestInfo);
+export default connect(mapStateToProps, mapDispatchToProps)(GuestInfo);
