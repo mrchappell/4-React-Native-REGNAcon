@@ -4,7 +4,6 @@ import { Card, ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { baseUrl } from '../shared/baseUrl';
 import Loading from './LoadingComponent';
-import * as WebBrowser from 'expo-web-browser';
 
 const mapStateToProps = state => {
     return {
@@ -29,26 +28,6 @@ class About extends Component {
     static navigationOptions = {
         title: 'About Us'
     }
-
-
-    state = {
-        result: null,
-      };
-    
-      render() {
-        return (
-          <View>
-            <Button title="Open WebBrowser" onPress={this._handlePressButtonAsync} />
-            <Text>{this.state.result && JSON.stringify(this.state.result)}</Text>
-          </View>
-        );
-      }
-    
-      _handlePressButtonAsync = async () => {
-        let result = await WebBrowser.openBrowserAsync('https://expo.io');
-        this.setState({ result });
-      };
-
 
     render() {
         const renderPartner = ({item}) => {
@@ -98,6 +77,5 @@ class About extends Component {
 
     }
 }
-
 
 export default connect(mapStateToProps)(About);
