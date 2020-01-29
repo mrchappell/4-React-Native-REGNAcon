@@ -28,7 +28,7 @@ function RenderCeleb(props) {
             <Card
                 featuredTitle={celeb.name}
                 image={{ uri: baseUrl + celeb.image }}>
-                <Text style={styles.textWithShadow }>
+                <Text style={{ margin: 10 }}>
                     {celeb.description}
                 </Text>
                 <View style={styles.cardRow}>
@@ -206,11 +206,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         margin: 20
     },
-    textWithShadow:{
-        textShadowColor: 'rgba(0, 0, 0, 0.75)',
-        textShadowOffset: {width: -1, height: 1},
-        textShadowRadius: 10
-    }
 });
 
 
